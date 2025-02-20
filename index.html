@@ -7,15 +7,31 @@
 </head>
 <body>
 
-    <h2>Upload an Image & Share on Facebook - post image widget</h2>
+    <h2>Upload an Image & Share on Facebook - ImgBB</h2>
 
-    <!-- PostImage Upload Button -->
-    <script src="https://postimages.org/js/upload.js"></script>
     <input type="file" id="imageUpload" accept="image/*">
     <input type="text" id="caption" placeholder="Enter your caption">
     <button onclick="startUploadAndShare()">Share on Facebook</button>
 
     <script>
+        async function uploadImageToImgBB(file) {
+            let formData = new FormData();
+            formData.append("image", file);
+
+            let response = await fetch("https://api.imgbb.com/1/upload?key=9d48407f86bb576c3b528ec4416ad3ab", {
+                method: "POST",
+                body: formData
+            });
+
+            let data = await response.json();
+
+            if (data.success) {
+                return data.data.url; // Returns the uploaded image URL
+            } else {
+                throw new Error("Upload failed");
+            }
+        }
+
         async function startUploadAndShare() {
             let fileInput = document.getElementById("imageUpload");
             let captionInput = document.getElementById("caption");
@@ -31,29 +47,14 @@
             button.disabled = true;
 
             try {
-                let formData = new FormData();
-                formData.append("file", file);
-                formData.append("upload_session", "true"); // Ensures PostImage recognizes it
+                let imageUrl = await uploadImageToImgBB(file);  // Background upload
+                let caption = captionInput.value + " #QRTrippin";
 
-                let response = await fetch("https://postimages.org/json/rr", {
-                    method: "POST",
-                    body: formData
-                });
-
-                let data = await response.json();
-
-                if (data && data.url) {
-                    let imageUrl = data.url;
-                    let caption = captionInput.value + " #QRTrippin";
-
-                    let fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}&quote=${encodeURIComponent(caption)}`;
-                    window.open(fbShareUrl, '_blank');
-                } else {
-                    alert("Upload failed. Try again.");
-                }
+                let fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}&quote=${encodeURIComponent(caption)}`;
+                window.open(fbShareUrl, '_blank');
 
             } catch (error) {
-                alert("Error uploading image: " + error.message);
+                alert("Upload failed. Try again.");
             }
 
             button.innerText = "Share on Facebook";
@@ -63,4 +64,3 @@
 
 </body>
 </html>
-

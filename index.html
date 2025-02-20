@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quick Share to Facebook</title>
+    <title>Quick Share to Facebook - Post Image</title>
 </head>
 <body>
 
@@ -11,23 +11,20 @@
     
     <input type="file" id="imageUpload">
     <input type="text" id="caption" placeholder="Enter your caption">
-    <button onclick="startUploadAndShare()">Share on Facebook Original Code</button>
+    <button onclick="startUploadAndShare()">Share on Facebook</button>
 
     <script>
-        async function uploadImageToImgur(file) {
+        async function uploadImageToPostImage(file) {
             let formData = new FormData();
-            formData.append("image", file);
+            formData.append("upload", file);
 
-            let response = await fetch("https://api.imgur.com/3/image", {
+            let response = await fetch("https://api.postimages.org/json/rr", {
                 method: "POST",
-                headers: {
-                    Authorization: "Client-ID YOUR_IMGUR_CLIENT_ID"  // Replace with your Imgur API Key
-                },
                 body: formData
             });
 
             let data = await response.json();
-            return data.data.link;  // Returns the uploaded image URL
+            return data.url;  // Returns the uploaded image URL
         }
 
         async function startUploadAndShare() {
@@ -46,7 +43,7 @@
             button.disabled = true;
 
             try {
-                let imageUrl = await uploadImageToImgur(file);  // Background upload
+                let imageUrl = await uploadImageToPostImage(file);  // Background upload
                 let caption = captionInput.value + " #QRTrippin";
 
                 let fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}&quote=${encodeURIComponent(caption)}`;

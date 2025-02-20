@@ -3,30 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Share Image on Facebook</title>
+    <title>Upload & Share to Facebook</title>
 </head>
 <body>
 
-    <h2>Upload an Image & Share on Facebook - ImgBB</h2>
+    <h2>Upload an Image & Share on Facebook - Imgur</h2>
 
     <input type="file" id="imageUpload" accept="image/*">
     <input type="text" id="caption" placeholder="Enter your caption">
     <button onclick="startUploadAndShare()">Share on Facebook</button>
 
     <script>
-        async function uploadImageToImgBB(file) {
+        const IMGUR_CLIENT_ID = "3b1e23c5570e76e";
+
+
+        async function uploadImageToImgur(file) {
             let formData = new FormData();
             formData.append("image", file);
+            formData.append("type", "file");
 
-            let response = await fetch("https://api.imgbb.com/1/upload?key=9d48407f86bb576c3b528ec4416ad3ab", {
+            let response = await fetch("https://api.imgur.com/3/image", {
                 method: "POST",
+                headers: {
+                    "Authorization": `Client-ID ${IMGUR_CLIENT_ID}`
+                },
                 body: formData
             });
 
             let data = await response.json();
 
             if (data.success) {
-                return data.data.url; // Returns the uploaded image URL
+                return data.data.link; // Returns the Imgur image URL
             } else {
                 throw new Error("Upload failed");
             }
@@ -47,9 +54,10 @@
             button.disabled = true;
 
             try {
-                let imageUrl = await uploadImageToImgBB(file);  // Background upload
+                let imageUrl = await uploadImageToImgur(file); // Upload to Imgur
                 let caption = captionInput.value + " #QRTrippin";
 
+                // Facebook Share URL
                 let fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}&quote=${encodeURIComponent(caption)}`;
                 window.open(fbShareUrl, '_blank');
 

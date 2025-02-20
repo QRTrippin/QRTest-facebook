@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRTrippin Facebook Post</title>
+    <script async defer crossorigin="anonymous" 
+        src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <script>
+        // Initialize Facebook SDK
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '28348910554752272', // Replace with your actual App ID
+                cookie: true,
+                xfbml: true,
+                version: 'v22.0' // Updated to v22.0
+            });
+        };
+
+        // Facebook Login
+        function loginWithFacebook() {
+            FB.login(function (response) {
+                if (response.authResponse) {
+                    document.getElementById("status").innerText = "Logged in!";
+                    document.getElementById("postSection").style.display = "block";
+                } else {
+                    document.getElementById("status").innerText = "Login failed!";
+                }
+            }, { scope: 'public_profile,pages_manage_posts,pages_read_engagement' });
+        }
+
+        // Upload Photo and Post to Facebook
+        function postToFacebook() {
+            let fileInput = document.getElementById("photoUpload");
+            let caption = document.getElementById("caption").value;
+            let photoFile = fileInput.files[0];
+
+            if (!photoFile) {
+                alert("Please select a photo to upload.");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append('source', photoFile);
+            formData.append('caption', caption + "\n\nThis post was created by the QRTrippin application. #QRTrippin");
+
+            FB.api('/me/photos', 'POST', formData, function (response) {
+                if (response && !response.error) {
+                    alert("Photo posted successfully!");
+                } else {
+                    console.error(response.error);
+                    alert("Error posting photo.");
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <h2>QRTrippin Facebook Post</h2>
+    
+    <button onclick="loginWithFacebook()">Login with Facebook</button>
+    <p id="status"></p>
+
+    <div id="postSection" style="display: none;">
+        <input type="file" id="photoUpload" accept="image/*"><br>
+        <input type="text" id="caption" placeholder="Enter caption..."><br>
+        <button onclick="postToFacebook()">Post to Facebook</button>
+    </div>
+</body>
+</html>

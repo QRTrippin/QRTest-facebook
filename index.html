@@ -3,99 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload & Share to Facebook</title>
+    <title>Post to Facebook</title>
 </head>
 <body>
 
-    <h2>Upload an Image & Share on Facebook</h2>
+    <h2>Share a Text Post on Facebook</h2>
 
-    <input type="file" id="imageUpload" accept="image/*">
-    <input type="text" id="caption" placeholder="Enter your caption">
-    <button onclick="startUploadAndShare()">Share on Facebook</button>
+    <input type="text" id="statusText" placeholder="Enter your post text">
+    <button onclick="shareOnFacebook()">Post to Facebook</button>
 
     <script>
-        const IMGUR_CLIENT_ID = "3b1e23c5570e76e";
+        function shareOnFacebook() {
+            let text = document.getElementById("statusText").value;
+            let fbShareUrl = `https://www.facebook.com/dialog/share?app_id=28348910554752272&href=https://qrtrippin.github.io/QRTest-facebook/&quote=${encodeURIComponent(text)}`;
 
-        async function uploadImageToImgur(file) {
-            let formData = new FormData();
-            formData.append("image", file);
-            formData.append("type", "file");
-
-            let response = await fetch("https://api.imgur.com/3/image", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Client-ID ${IMGUR_CLIENT_ID}`
-                },
-                body: formData
-            });
-
-            let data = await response.json();
-
-            if (data.success) {
-                return data.data.link;
-            } else {
-                throw new Error("Upload failed");
-            }
-        }
-
-        async function startUploadAndShare() {
-            let fileInput = document.getElementById("imageUpload");
-            let captionInput = document.getElementById("caption");
-            let file = fileInput.files[0];
-
-            if (!file) {
-                alert("Please select an image.");
-                return;
-            }
-
-            let button = document.querySelector("button");
-            button.innerText = "Uploading...";
-            button.disabled = true;
-
-            try {
-                let imageUrl = await uploadImageToImgur(file);
-                let caption = captionInput.value + " #QRTrippin";
-
-                // Generate a random filename
-                let randomFileName = `post-${Date.now()}.html`;
-                let sharePageUrl = `https://qrtrippin.github.io/QRTest-facebook/${randomFileName}`;
-
-                // Generate HTML for the share page
-                let sharePageContent = `
-                    <!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Shared Post</title>
-                        <meta property="og:title" content="QRTrippin Travel Post">
-                        <meta property="og:description" content="${caption}">
-                        <meta property="og:image" content="${imageUrl}">
-                        <meta property="og:type" content="website">
-                        <meta property="og:url" content="${sharePageUrl}">
-                    </head>
-                    <body>
-                        <h2>QRTrippin Travel Post</h2>
-                        <p>${caption}</p>
-                        <img src="${imageUrl}" alt="Uploaded Image" style="max-width:100%; height:auto;">
-                    </body>
-                    </html>
-                `;
-
-                // Simulate saving this file (in real hosting, you'd need a backend)
-                console.log("Save this file:", randomFileName, sharePageContent);
-
-                alert(`Manually create ${randomFileName} in GitHub Pages with the generated content.`);
-                
-                let fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(sharePageUrl)}`;
-                window.open(fbShareUrl, '_blank');
-
-            } catch (error) {
-                alert("Upload failed. Try again.");
-            }
-
-            button.innerText = "Share on Facebook";
-            button.disabled = false;
+            window.open(fbShareUrl, '_blank');
         }
     </script>
 

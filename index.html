@@ -15,7 +15,13 @@
     <script>
         function shareOnFacebook() {
             let text = document.getElementById("statusText").value;
-            let fbShareUrl = `https://www.facebook.com/dialog/share?app_id=28348910554752272&href=https://qrtrippin.github.io/QRTest-facebook/&quote=${encodeURIComponent(text)}`;
+
+            if (!text.trim()) {
+                alert("Please enter some text to post.");
+                return;
+            }
+
+            let fbShareUrl = `https://www.facebook.com/dialog/feed?app_id=28348910554752272&display=popup&quote=${encodeURIComponent(text)}`;
 
             window.open(fbShareUrl, '_blank');
         }

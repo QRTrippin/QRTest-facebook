@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    <h2>Upload an Image & Share on Facebook - Feed dialogue</h2>
+    <h2>Upload an Image & Share on Facebook - Feed dialogue #2</h2>
 
     <input type="file" id="imageUpload" accept="image/*">
     <input type="text" id="caption" placeholder="Enter your caption">
@@ -57,8 +57,8 @@
                 let imageUrl = await uploadImageToImgur(file); // Upload to Imgur
                 let caption = captionInput.value + " #QRTrippin";
 
-                // Open Facebook Feed Dialog (supports captions!)
-                let fbShareUrl = `https://www.facebook.com/dialog/feed?app_id=${FACEBOOK_APP_ID}&display=popup&caption=${encodeURIComponent(caption)}&link=${encodeURIComponent(imageUrl)}&redirect_uri=https://www.facebook.com/`;
+                // Facebook Feed Dialog with description (forces caption to be visible)
+                let fbShareUrl = `https://www.facebook.com/dialog/feed?app_id=${FACEBOOK_APP_ID}&display=popup&link=${encodeURIComponent(imageUrl)}&description=${encodeURIComponent(caption)}&redirect_uri=https://www.facebook.com/`;
 
                 window.open(fbShareUrl, '_blank');
 

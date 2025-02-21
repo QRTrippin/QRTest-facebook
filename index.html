@@ -7,14 +7,15 @@
 </head>
 <body>
 
-    <h2>Upload an Image & Share on Facebook</h2>
+    <h2>Upload an Image & Share on Facebook - Feed dialogue</h2>
 
     <input type="file" id="imageUpload" accept="image/*">
     <input type="text" id="caption" placeholder="Enter your caption">
     <button onclick="startUploadAndShare()">Share on Facebook</button>
 
     <script>
-        const IMGUR_CLIENT_ID = "3b1e23c5570e76e";
+        const IMGUR_CLIENT_ID = "3b1e23c5570e76e"; // Your Imgur Client ID
+        const FACEBOOK_APP_ID = "28348910554752272"; // Your Facebook App ID
 
         async function uploadImageToImgur(file) {
             let formData = new FormData();
@@ -56,11 +57,10 @@
                 let imageUrl = await uploadImageToImgur(file); // Upload to Imgur
                 let caption = captionInput.value + " #QRTrippin";
 
-                // Save to a JSON file or use URL parameters
-                let shareUrl = `https://QRTrippin.github.io/QRTest-facebook/share.html?img=${encodeURIComponent(imageUrl)}&caption=${encodeURIComponent(caption)}`;
+                // Open Facebook Feed Dialog (supports captions!)
+                let fbShareUrl = `https://www.facebook.com/dialog/feed?app_id=${FACEBOOK_APP_ID}&display=popup&caption=${encodeURIComponent(caption)}&link=${encodeURIComponent(imageUrl)}&redirect_uri=https://www.facebook.com/`;
 
-                // Redirect to the sharing page
-                window.location.href = shareUrl;
+                window.open(fbShareUrl, '_blank');
 
             } catch (error) {
                 alert("Upload failed. Try again.");
@@ -73,4 +73,5 @@
 
 </body>
 </html>
+
 

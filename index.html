@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    <h2>Upload an Image & Share on Facebook - Imgur</h2>
+    <h2>Upload an Image & Share on Facebook - Imgur #2</h2>
 
     <input type="file" id="imageUpload" accept="image/*">
     <input type="text" id="caption" placeholder="Enter your caption">
@@ -58,7 +58,10 @@
                 let caption = captionInput.value + " #QRTrippin";
 
                 // Facebook Share URL
+                //let fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}&quote=${encodeURIComponent(caption)}`;
+                // Facebook Share URL with Quote (Caption)
                 let fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}&quote=${encodeURIComponent(caption)}`;
+
                 window.open(fbShareUrl, '_blank');
 
             } catch (error) {

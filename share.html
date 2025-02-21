@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta property="og:title" content="Check out this photo!">
+    <meta property="og:description" content="This post was created by the QRTrippin application. #QRTrippin">
+    <meta property="og:image" content="IMAGE_URL_WILL_BE_REPLACED">
+    <meta property="og:url" content="https://QRTrippin.github.io/QRTest-facebook/share.html">
+</head>
+<body>
+    <h1>Redirecting...</h1>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const imageUrl = params.get("img");
+
+        if (imageUrl) {
+            document.querySelector('meta[property="og:image"]').setAttribute("content", imageUrl);
+            window.location.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+        }
+    </script>
+</body>
+</html>

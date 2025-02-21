@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    <h2>Upload an Image & Share on Facebook - Imgur #2</h2>
+    <h2>Upload an Image & Share on Facebook - Imgur #3</h2>
 
     <input type="file" id="imageUpload" accept="image/*">
     <input type="text" id="caption" placeholder="Enter your caption">
@@ -15,7 +15,6 @@
 
     <script>
         const IMGUR_CLIENT_ID = "3b1e23c5570e76e";
-
 
         async function uploadImageToImgur(file) {
             let formData = new FormData();
@@ -55,14 +54,13 @@
 
             try {
                 let imageUrl = await uploadImageToImgur(file); // Upload to Imgur
-                let caption = captionInput.value + " #QRTrippin";
+                let caption = captionInput.value || "This post was created by the QRTrippin application. #QRTrippin";
 
-                // Facebook Share URL
-                //let fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}&quote=${encodeURIComponent(caption)}`;
-                // Facebook Share URL with Quote (Caption)
-                let fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}&quote=${encodeURIComponent(caption)}`;
+                // Share Page URL hosted on GitHub Pages
+                let sharePageUrl = `https://QRTrippin.github.io/QRTest-facebook/share.html?img=${encodeURIComponent(imageUrl)}&caption=${encodeURIComponent(caption)}`;
 
-                window.open(fbShareUrl, '_blank');
+                // Open Facebook Share Dialog
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(sharePageUrl)}`, '_blank');
 
             } catch (error) {
                 alert("Upload failed. Try again.");

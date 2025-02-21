@@ -2,46 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta property="og:title" content="Check out this photo!">
-    <meta property="og:description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shared Image</title>
+    <meta property="og:title" content="QRTrippin Travel Post">
+    <meta property="og:description" content="Check out this post from QRTrippin!">
     <meta property="og:image" content="">
-    <meta property="og:url" content="">
     <meta property="og:type" content="website">
-    <title>Share on Facebook</title>
-    <script>
-        function updateMetaTags() {
-            const params = new URLSearchParams(window.location.search);
-            const imageUrl = params.get("img");
-            const caption = params.get("caption");
-
-            if (imageUrl) {
-                document.querySelector('meta[property="og:image"]').setAttribute("content", imageUrl);
-                document.querySelector('meta[property="og:description"]').setAttribute("content", caption);
-                document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
-            }
-        }
-
-        window.onload = updateMetaTags;
-    </script>
+    <meta property="og:url" content="">
 </head>
 <body>
-    <h2>Share This Post</h2>
-    <img id="previewImage" src="" alt="Uploaded Image" style="max-width: 100%;">
-    <p id="captionText"></p>
-    <a id="shareButton" href="#" target="_blank">Share on Facebook</a>
-
+    <h2>QRTrippin Travel Post</h2>
+    <p id="caption"></p>
+    <img id="image" src="" alt="Uploaded Image" style="max-width:100%; height:auto;">
+    
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const imageUrl = params.get("img");
-        const caption = params.get("caption");
+        // Get parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const imgUrl = urlParams.get('img');
+        const caption = urlParams.get('caption');
 
-        if (imageUrl) {
-            document.getElementById("previewImage").src = imageUrl;
-            document.getElementById("captionText").innerText = caption;
+        // Set content dynamically
+        document.getElementById("image").src = imgUrl;
+        document.getElementById("caption").innerText = caption;
 
-            const fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
-            document.getElementById("shareButton").href = fbShareUrl;
-        }
+        // Update Open Graph meta tags dynamically
+        document.querySelector('meta[property="og:image"]').setAttribute("content", imgUrl);
+        document.querySelector('meta[property="og:description"]').setAttribute("content", caption);
+        document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
     </script>
 </body>
 </html>
+

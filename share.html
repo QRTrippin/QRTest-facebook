@@ -2,21 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QRTrippin Photo</title>
-
-    <!-- Default Open Graph Tags -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="QRTrippin Photo">
-    <meta property="og:description" content="This post was created by the QRTrippin application. #QRTrippin">
+    <meta property="og:title" content="Check out this photo!">
+    <meta property="og:description" content="">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
-
+    <meta property="og:type" content="website">
+    <title>Share on Facebook</title>
     <script>
-        function updateOGMeta() {
+        function updateMetaTags() {
             const params = new URLSearchParams(window.location.search);
             const imageUrl = params.get("img");
-            const caption = params.get("caption") || "This post was created by the QRTrippin application. #QRTrippin";
+            const caption = params.get("caption");
 
             if (imageUrl) {
                 document.querySelector('meta[property="og:image"]').setAttribute("content", imageUrl);
@@ -25,22 +21,26 @@
             }
         }
 
-        updateOGMeta();
+        window.onload = updateMetaTags;
     </script>
 </head>
 <body>
-    <h1>QRTrippin Photo</h1>
-    <p id="caption"></p>
-    <img id="uploadedImage" src="" style="max-width: 100%; height: auto;">
+    <h2>Share This Post</h2>
+    <img id="previewImage" src="" alt="Uploaded Image" style="max-width: 100%;">
+    <p id="captionText"></p>
+    <a id="shareButton" href="#" target="_blank">Share on Facebook</a>
 
     <script>
         const params = new URLSearchParams(window.location.search);
         const imageUrl = params.get("img");
-        const caption = params.get("caption") || "This post was created by the QRTrippin application. #QRTrippin";
+        const caption = params.get("caption");
 
         if (imageUrl) {
-            document.getElementById("uploadedImage").src = imageUrl;
-            document.getElementById("caption").innerText = caption;
+            document.getElementById("previewImage").src = imageUrl;
+            document.getElementById("captionText").innerText = caption;
+
+            const fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+            document.getElementById("shareButton").href = fbShareUrl;
         }
     </script>
 </body>

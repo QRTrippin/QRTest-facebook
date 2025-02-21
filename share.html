@@ -2,13 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRTrippin Photo</title>
+
+    <!-- Default Open Graph Tags -->
+    <meta property="og:type" content="website">
     <meta property="og:title" content="QRTrippin Photo">
     <meta property="og:description" content="This post was created by the QRTrippin application. #QRTrippin">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
+
+    <script>
+        function updateOGMeta() {
+            const params = new URLSearchParams(window.location.search);
+            const imageUrl = params.get("img");
+            const caption = params.get("caption") || "This post was created by the QRTrippin application. #QRTrippin";
+
+            if (imageUrl) {
+                document.querySelector('meta[property="og:image"]').setAttribute("content", imageUrl);
+                document.querySelector('meta[property="og:description"]').setAttribute("content", caption);
+                document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
+            }
+        }
+
+        updateOGMeta();
+    </script>
 </head>
 <body>
-    <h1>Redirecting...</h1>
+    <h1>QRTrippin Photo</h1>
+    <p id="caption"></p>
+    <img id="uploadedImage" src="" style="max-width: 100%; height: auto;">
 
     <script>
         const params = new URLSearchParams(window.location.search);
@@ -16,12 +39,8 @@
         const caption = params.get("caption") || "This post was created by the QRTrippin application. #QRTrippin";
 
         if (imageUrl) {
-            document.querySelector('meta[property="og:image"]').setAttribute("content", imageUrl);
-            document.querySelector('meta[property="og:description"]').setAttribute("content", caption);
-            document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
-
-            // Redirect to Facebook Share Dialog
-            window.location.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+            document.getElementById("uploadedImage").src = imageUrl;
+            document.getElementById("caption").innerText = caption;
         }
     </script>
 </body>

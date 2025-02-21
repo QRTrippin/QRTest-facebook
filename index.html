@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    <h2>Share a Text Post on Facebook</h2>
+    <h2>Share a Text Post on Facebook - #2</h2>
 
     <input type="text" id="statusText" placeholder="Enter your post text">
     <button onclick="shareOnFacebook()">Post to Facebook</button>
@@ -21,7 +21,7 @@
                 return;
             }
 
-            let fbShareUrl = `https://www.facebook.com/dialog/feed?app_id=28348910554752272&display=popup&quote=${encodeURIComponent(text)}`;
+            let fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=https://qrtrippin.github.io/QRTest-facebook/&quote=${encodeURIComponent(text)}`;
 
             window.open(fbShareUrl, '_blank');
         }
@@ -29,4 +29,5 @@
 
 </body>
 </html>
+
 

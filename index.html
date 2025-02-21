@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    <h2>Upload an Image & Share on Facebook-- share</h2>
+    <h2>Upload an Image & Share on Facebook</h2>
 
     <input type="file" id="imageUpload" accept="image/*">
     <input type="text" id="caption" placeholder="Enter your caption">
@@ -15,7 +15,6 @@
 
     <script>
         const IMGUR_CLIENT_ID = "3b1e23c5570e76e";
-        const SHARE_PAGE_URL = "https://qrtrippin.github.io/QRTest-facebook/share.html"; // Update with your GitHub Pages link
 
         async function uploadImageToImgur(file) {
             let formData = new FormData();
@@ -57,11 +56,38 @@
                 let imageUrl = await uploadImageToImgur(file);
                 let caption = captionInput.value + " #QRTrippin";
 
-                // Create a shareable link to the hosted page
-                let fullShareUrl = `${SHARE_PAGE_URL}?img=${encodeURIComponent(imageUrl)}&caption=${encodeURIComponent(caption)}`;
+                // Generate a random filename
+                let randomFileName = `post-${Date.now()}.html`;
+                let sharePageUrl = `https://qrtrippin.github.io/QRTest-facebook/${randomFileName}`;
 
-                // Open Facebook share dialog with the hosted page link
-                let fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fullShareUrl)}`;
+                // Generate HTML for the share page
+                let sharePageContent = `
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Shared Post</title>
+                        <meta property="og:title" content="QRTrippin Travel Post">
+                        <meta property="og:description" content="${caption}">
+                        <meta property="og:image" content="${imageUrl}">
+                        <meta property="og:type" content="website">
+                        <meta property="og:url" content="${sharePageUrl}">
+                    </head>
+                    <body>
+                        <h2>QRTrippin Travel Post</h2>
+                        <p>${caption}</p>
+                        <img src="${imageUrl}" alt="Uploaded Image" style="max-width:100%; height:auto;">
+                    </body>
+                    </html>
+                `;
+
+                // Simulate saving this file (in real hosting, you'd need a backend)
+                console.log("Save this file:", randomFileName, sharePageContent);
+
+                alert(`Manually create ${randomFileName} in GitHub Pages with the generated content.`);
+                
+                let fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(sharePageUrl)}`;
                 window.open(fbShareUrl, '_blank');
 
             } catch (error) {

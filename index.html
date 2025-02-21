@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    <h2>Upload an Image & Share on Facebook - Imgur #3</h2>
+    <h2>Upload an Image & Share on Facebook #4</h2>
 
     <input type="file" id="imageUpload" accept="image/*">
     <input type="text" id="caption" placeholder="Enter your caption">
@@ -56,7 +56,7 @@
                 let imageUrl = await uploadImageToImgur(file); // Upload to Imgur
                 let caption = captionInput.value || "This post was created by the QRTrippin application. #QRTrippin";
 
-                // Share Page URL hosted on GitHub Pages
+                // Generate Share Page URL with Image and Caption
                 let sharePageUrl = `https://QRTrippin.github.io/QRTest-facebook/share.html?img=${encodeURIComponent(imageUrl)}&caption=${encodeURIComponent(caption)}`;
 
                 // Open Facebook Share Dialog
@@ -73,3 +73,4 @@
 
 </body>
 </html>
+

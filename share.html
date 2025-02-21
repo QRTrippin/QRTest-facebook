@@ -2,19 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta property="og:title" content="Check out this photo!">
+    <meta property="og:title" content="QRTrippin Photo">
     <meta property="og:description" content="This post was created by the QRTrippin application. #QRTrippin">
-    <meta property="og:image" content="IMAGE_URL_WILL_BE_REPLACED">
-    <meta property="og:url" content="https://QRTrippin.github.io/QRTest-facebook/share.html">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
 </head>
 <body>
     <h1>Redirecting...</h1>
+
     <script>
         const params = new URLSearchParams(window.location.search);
         const imageUrl = params.get("img");
+        const caption = params.get("caption") || "This post was created by the QRTrippin application. #QRTrippin";
 
         if (imageUrl) {
             document.querySelector('meta[property="og:image"]').setAttribute("content", imageUrl);
+            document.querySelector('meta[property="og:description"]').setAttribute("content", caption);
+            document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
+
+            // Redirect to Facebook Share Dialog
             window.location.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
         }
     </script>
